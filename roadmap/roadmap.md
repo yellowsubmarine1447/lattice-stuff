@@ -1,6 +1,6 @@
 # Background
-I'm pretty familiar with RSA, modular arithmetic and linear algebra from passion-studying maths as well as CTF challenges featuring these concepts. My first exposure to lattice cryptography was NOT actually through CTF's, it was from a series of videos by Matthew Bolan on using lattices to reverse engineer Minecraft seeds.
-![Matthew Bolan video](matthew_bolan_video.png)
+I'm pretty familiar with RSA, modular arithmetic and linear algebra from passion-studying maths as well as CTF challenges featuring these concepts. My first exposure to lattice cryptography was NOT actually through CTF's, it was from a series of videos by [Matthew Bolan](https://www.youtube.com/watch?v=mc9w2iD3Gzs) on using lattices to reverse engineer Minecraft seeds.
+
 I sort of understood what he was talking about at the time, but didn't fully digest what he was saying. Some time later, one of my friends gave a talk introducing lattice cryptography at the UNSW SCONES conference, and I also saw some Down Under CTF challenges about it. With all this talk, I decided it's high time to learn!
 
 # Learning
