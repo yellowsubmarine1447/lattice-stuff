@@ -15,7 +15,7 @@ for every byte `b` in the string `s`. A key observation is that we can actually 
 ```math
 \mathrm{hash} = A^n\times \mathrm{initial\_value} + A^{n-1}b_1 + A^{n-2}b_2 + \cdots + A^0b_n
 ```
-So, all we have to do is find values $b_1, \cdots b_n$ which add to the value $\mathrm{hash} - $A^n\times\text{initial value}$. Furthermore, we have the restriction that these numbers should be the value of a byte, since XOR should not change a number more than 0xff (in fact, our numbers should be even smaller for a reason I'll explain in a moment). Conveniently enough, prior to this challenge, I learnt the basics of lattice cryptography, and finding out that it was applicable here was a very cool discovery!
+So, all we have to do is find values $b_1, \cdots b_n$ which add to the value $\mathrm{hash} - $A^n\times\text{initial value}$. Furthermore, we have the restriction that these numbers should be no bigger than a byte's maximum size, since XOR should not change a number more than 0xff (in fact, our numbers should be even smaller for a reason I'll explain in a moment). Conveniently enough, prior to this challenge, I learnt the basics of lattice cryptography, and finding out that it was applicable here was a very cool discovery!
 
 Basically, the setup of requiring a bunch of small integer values to add in a fixed linear combination to some target value is perfect for lattice cryptography as we can use an orthogonal lattice and LLL to coerce these values to appear (and use Kannan Embedding to turn this problem into a CVP instance). Then, we reverse the algorithm and backtrack to find the bytes which, when XOR'd, will replicate the behaviour of adding each $b_i$.
 
