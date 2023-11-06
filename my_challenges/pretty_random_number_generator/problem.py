@@ -1,30 +1,13 @@
-from Crypto.Cipher import AES
-from os import urandom
+from hashlib import md5
+from math import log2
 
-KEY = urandom(16)
-#from secrets import KEY
+FLAG = "MYFLAG{really_cool_flag_i_think}"
+#from secrets import FLAG
 
-def dec(ciphertext, iv):
-    aes = AES.new(KEY, AES.MODE_CBC, iv)
-    return aes.decrypt(ciphertext)
-
-print("AES is probably insecure, so I've developed my own encryption system based on it!")
-print("Unfortunately encrpytion is still in development :)")
-
+assert len(FLAG) == 32
+secret = int.from_bytes(FLAG.encode(), "big")
+p = 3902360539587438503887804112898372526804375385242810819130471125832797798664211473
+print("Ok I think I've got this randomness thing solved. Give me a seed and I'll give you ONE number!")
 while True:
-    try:
-        enc = bytes.fromhex(input("Enter your ciphertext: "))
-        if len(enc) % 16 != 0:
-            print("Ciphertext must be 16-byte blocks")
-            continue
-
-        iv, name = dec(enc[:16], b"\x00"*16), enc[16:]
-        while name:
-            iv, name = dec(name[:16], iv), name[16:]
-        name = iv.rstrip()
-        print(f"Hello {name}!")
-        print("That's... quite the strange name")
-        if name == "admin":
-            print("MYFLAG{i_love_flags}")
-    except:
-        print("Please provide the ciphertext in hexadecimal format")
+    h = md5(input("Enter your seed: " ).encode()).hexdigest()
+    print( (int(h, 16) * secret % p) >> int(log2(secret) // 2) )
