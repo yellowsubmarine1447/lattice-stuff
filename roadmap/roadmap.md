@@ -30,11 +30,18 @@ print(f"GCD: {reduced_a.rows()[-1][0] // S}")
 print(f"Our integer multiples: {reduced_a.rows()[-1][1:]}")
 ```
 Essentially, we are generating a set of small integer coefficients which, when our given integers are taken in linear combination of, gives the smallest possible number it can. There's actually something subtle going on: if LLL generates the smallest vectors it can, why does this code work? Why is there a row in our LLL reduced matrix with the GCD of our number in the first column of the following diagram?
-![Sage GCD example](gcd_example.png)
+![Sage GCD example](gcd_example.PNG)
 
 It turns out, the reason is because LLL must still generate a basis of vectors, so not all entries in the first column can be zero. This is actually a useful property, because if we multiply the numbers in some ecolumn by some very large bound, we can essentially punish multiple vectors giving numbers larger than the smallest possible non-zero number it can give in that column.
 
 This is an important part of using the LLL algorithm in lattice reduction to solve problems that I haven't seen documented anywhere, though perhaps implicitly stated.
 
 # Further learning and another technique
-After this, I went on to learn about orthogonal lattices.
+After this, I went on to learn about orthogonal lattices. I described this process in the HSSP writeup, but essentially this was in preparation for the Down Under CTF apbqii challenge. This took a long time to writeup, and another cool technique that I learnt from this was positive integer coercion.
+
+Basically, if you simulate moduli in your lattice by stacking the identity multiplied by some value $N$, its likely that values larger than $\frac N2$ become negative, since when $N$ is subtracted from the positive component they are closer in magnitude to zero. So, if you have a CVP problem, you can add/subtract $\frac N2$ to your target vector: that way, the closest offset vector will be measured as the closest to $\frac N2$.
+
+Most of what I did next was implementing solutions to CTF problems. I implemented the solution to fnv, experimented with an implementation of the hidden number problem and also played around with the low-density subset sum problem. This helped solidify what I learnt, but I think the biggest learning experience was solving the LCG Card Gimmicks Down Under CTF challenge. It pretty much reinforced the two tricks I talked about before with forcing positive integers to appear and punishing large values.
+
+# Reflection
+If I was to give feedback to my past self on how to approach this topic, I would tell myself have the patience to learn. A lot of the time I found myself jumping the gun and going straight into implementing without thinking it through. Then, I'd make a mistake, get annoyed, crash and burn and give up and move on to something else. I wish I'd taken more time to debug when things went wrong and verify that each step I took was right and made sense. Though it would've seemed slow at the time, I think I would've appreciated what I was learning a lot more.
