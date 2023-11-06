@@ -13,9 +13,9 @@ Essentially, we compute
 ```
 for every byte `b` in the string `s`. A key observation is that we can actually "replace" the operation of XOR with the byte `b` with adding some number `k`. Why do we want to do this? Because it turns all of our operations into mathematical operations that we can expand out into a series! For a length $n$ string with "add values" $b_1,\dots, b_n$, we have:
 ```math
-\mathrm{hash} = A^n\times \mathrm{initial_value} + A^{n-1}b_1 + A^{n-2}b_2 + \cdots + A^0b_n
+\mathrm{hash} = A^n\times \mathrm{initial\_value} + A^{n-1}b_1 + A^{n-2}b_2 + \cdots + A^0b_n
 ```
-So, all we have to do is find values $b_1, \cdots b_n$ which add to the value $\mathrm{hash} - $A^n\times\mathrm{initial_value}$. Furthermore, we have the restriction that these numbers should be the value of a byte, since XOR should not change a number more than 0xff (in fact, our numbers should be even smaller for a reason I'll explain in a moment). Conveniently enough, prior to this challenge, I learnt the basics of lattice cryptography, and finding out that it was applicable here was a very cool discovery!
+So, all we have to do is find values $b_1, \cdots b_n$ which add to the value $\mathrm{hash} - $A^n\times\mathrm{initial\_value}$. Furthermore, we have the restriction that these numbers should be the value of a byte, since XOR should not change a number more than 0xff (in fact, our numbers should be even smaller for a reason I'll explain in a moment). Conveniently enough, prior to this challenge, I learnt the basics of lattice cryptography, and finding out that it was applicable here was a very cool discovery!
 
 Basically, the setup of requiring a bunch of small integer values to add in a fixed linear combination to some target value is perfect for lattice cryptography as we can use an orthogonal lattice and LLL to coerce these values to appear (and use Kannan Embedding to turn this problem into a CVP instance). Then, we reverse the algorithm and backtrack to find the bytes which, when XOR'd, will replicate the behaviour of adding each $b_i$.
 
