@@ -3,8 +3,11 @@ https://github.com/DownUnderCTF/Challenges_2023_Public/tree/main/crypto/apbq-rsa
 
 # Solution
 This challenge is a classic RSA setup with two undisclosed primes $p, q$, undisclosed private key $d$ and a secret flag $p$. The values $n = pq$, encryption key $e = 65537$ and ciphertext $c = p^e\bmod n$.
+
 We're also given hints where, upon initialising three pairs of integers $(a_i, b_i)$ for $1 \le i \le 3$, we're told a list of values $c_i a_ip + b_iq\bmod n$. It seems our goal is to recover $p$ and $q$, or potentially calculate $\phi(n)$.
+
 The previous challenge `apbq` upper bounded $a$ so that it was bruteforceable, from which every $a_2c_1 - a_1c_2$ could be checked if it shares a common factor with $n$ (which would be the prime $q$).
+
 However, $a$ and $b$ are too large to bruteforce in this case ($312$ bits), however they are relatively small compared to the size of the primes ($1024$), which indicates that lattice cryptography might be useful.
 
 It turns out the previous construction is helpful: $a_ic_j - a_jc_i = (a_ib_j - b_ia_j)q$ will be a multiple of $q$. Then, we can multiply $p$ to obtain $a_ipc_j - a_jpc_i \equiv 0\bmod n$. This is important as $a_ip$ and $a_jp$ are the smallest coefficients for a linear combination of $c_j$ and $-c_i$ to be a multiple of $n$, as neither are multiples of $n$ and must therefore have only one pair of such coefficients which are both positive and less than $n$.
