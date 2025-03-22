@@ -8,7 +8,7 @@ This problem requires us to reverse engineer the seed from a Linear Congruential
 
 Essentially, an LCG calculates $A\times s + C \bmod M$, where $s$ is our seed. This value then becomes the new seed, and is returned to the parent random number-getting function. The top 48 bits of this value is then extracted and used as the random integer (the bottom 16 bits tend to make the random number more "predictable"). To calculate a random number in the range [0, 54), this value is modded in 54 and returned as the value in the range.
 
-After $n$ applications, the new seed will take on the value $A(A(\cdots) + C) + C)\cdots) + C$, which we can expand and use the geometric series formula to write as $A^n + C\times\frac{A^n - 1}{A-1}$
+After $n$ applications, the new seed will take on the value $A(A(\cdots) + C) + C)\cdots) + C$, which we can expand and use the geometric series formula to write as $A^ns + C\times\frac{A^n - 1}{A-1}$
 
 Now, if we let $r$ be the value that we observe, then we may write each new seed we calculate as $A^ns + C\frac{A^n - 1}{A-1} + Mt_n = 2^{16}\times (54k_n + r_n) + h_n$, where $k_n, t_n$ are integers which represent subtractions to simulate the application of the modulus operator, and $h_n$ is the lower 16 bit number. If we rearrange this around, we can then express this problem as one where we wish to find small values of $h_n\le2^{16}$ so that the equality holds for all $n$, which we can then model as a CVP instance.
 
